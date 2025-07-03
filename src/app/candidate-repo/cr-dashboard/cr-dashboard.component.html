@@ -1,0 +1,68 @@
+<div class="dashboard-header">
+  <div>
+    <h2 class="title">Dashboard</h2>
+    <h2 class="titl">Total Records : <span>{{totalRecords}}</span></h2>
+  </div>
+</div>
+<div class="dashboard-container">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-card-text">
+        <h4>Profile Source Distribution</h4>
+      </div>
+      <div class="stat-cart-count">
+        <div class="stat-item"><span>Manual</span><strong>{{manuallyAddedCount}}</strong></div>
+        <div class="stat-item"><span>Imported</span><strong>{{importedCount}}</strong></div>
+        <div class="stat-item"><span>Consultancy</span><strong>{{consultancyCount}}</strong></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-text">
+        <h4>Profile Activity Status</h4>
+      </div>
+      <div class="stat-cart-count">
+        <div class="stat-item green"><span>Touched Profiles</span><strong>{{touchedCount}}</strong></div>
+        <div class="stat-item red"><span>Untouched Profiles</span><strong>{{untouchedCount}}</strong></div>
+        <div class="stat-item"><span>Touched Percentage %</span><strong>{{touchedPercentage}}%</strong></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-text">
+        <h4>Candidate Status Overview</h4>
+      </div>
+      <div class="stat-cart-count">
+        <div class="stat-item interest"><span>Interested</span><strong>{{interestedCount}}</strong></div>
+        <div class="stat-item notinterest"><span>Not Interested</span><strong>{{notInterestedCount}}</strong></div>
+        <div class="stat-item cnr"><span>CNR (Call No Response)</span><strong>{{cnrCount}}</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="quick-actions">
+    <div class="action-card add-candidate" (click)="navigateToAddCandidate()">
+      <div class="action-frame">
+        <img class="action-icon" src="assets/plus-icons.svg">
+        <span>Add Candidate</span>
+        <p>Manual entry</p>
+      </div>
+    </div>
+    <div class="action-card import-candidates" (click)="navigateToImportCandidate()">
+      <div class="action-frame">
+        <img class="action-icon" id="import-icon" src="assets/import-icons.svg">
+        <span>Import Candidates</span>
+        <p>Bulk upload</p>
+      </div>
+    </div>
+    <div class="action-card request-consultancy" (click)="navigateToConsultancy()">
+      <div class="action-frame">
+        <img class="action-icon" src="assets/req-papers.svg">
+        <span>Request from consultancy</span>
+        <p>Get candidates from consultancy</p>
+      </div>
+    </div>
+    
+  </div>
+
+  <app-candidate-table></app-candidate-table>
+</div>

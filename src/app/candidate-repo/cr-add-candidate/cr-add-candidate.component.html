@@ -1,0 +1,331 @@
+<div class="page-header">
+  <h2>{{isEdit==='Edit'? 'Edit': 'Add'}} Candidate</h2>
+</div>
+
+<div class="candidate-add-container">
+
+
+    <div class="form-navigation">
+      <div class="nav-tabs">
+        <div class="nav-tab" (click)="toggleActive($event)" 
+        [class.active]="selectedTab === 'candidate-info'" 
+        data-tab="candidate-info">Candidate Information</div>
+
+        <div [class.disabled]="!basicDetailsFormSubmitted" 
+             [style.pointer-events]="!basicDetailsFormSubmitted ? 'none' : 'auto'" 
+        class="nav-tab" (click)="toggleActive($event)" 
+        [class.active]="selectedTab === 'professional-details'" 
+        data-tab="professional-details">Professional Details</div>
+
+        <div [class.disabled]="!profDetailsFormSubmitted" 
+             [style.pointer-events]="!profDetailsFormSubmitted ? 'none' : 'auto'" 
+        class="nav-tab" (click)="toggleActive($event)" 
+        [class.active]="selectedTab === 'skills-speciality'" 
+        data-tab="skills-speciality">Skills & Speciality</div>
+
+        <div [class.disabled]="!skillsDetailsFormSubmitted" 
+             [style.pointer-events]="!skillsDetailsFormSubmitted ? 'none' : 'auto'" 
+         class="nav-tab" (click)="toggleActive($event)" 
+        [class.active]="selectedTab === 'compensation-location'" 
+        data-tab="compensation-location">Compensation & Location</div>
+      </div>
+    </div>
+
+    <div class="candidate-form">
+      <!-- Candidate Information Tab -->
+      <form class="form-section" id="candidate-info" *ngIf="selectedTab === 'candidate-info'" [formGroup]="addCandidateFormBasicDetails" (ngSubmit)="onAddCandidateFormSubmit('basic-info')" >
+        <div class="form-row">
+          <div class="form-group">
+            <label for="candidateName">Candidate Name<span class="required-star">*</span></label>
+            <input type="text" formControlName="candidateName" placeholder="Enter Name" required>
+            <div *ngIf="addCandidateFormBasicDetails.controls['candidateName'].touched && addCandidateFormBasicDetails.controls['candidateName'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['candidateName'].errors?.['required']">Name is required.</small>
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['candidateName'].errors?.['minlength']">Min 3 characters required.</small>
+          </div>
+          </div>
+          <div class="form-group">
+            <label for="emailId">Email ID<span class="required-star">*</span></label>
+            <input *ngIf="!isAdmin && isEditBool" type="email" formControlName="candidateEmail" placeholder="Enter Email ID" readonly class="readonly-input">
+            <input *ngIf="!isAdmin && !isEditBool" type="email" formControlName="candidateEmail" placeholder="Enter Email ID">
+
+            <input *ngIf="isAdmin" type="email" formControlName="candidateEmail" placeholder="Enter Email ID">
+            <div *ngIf="addCandidateFormBasicDetails.controls['candidateEmail'].touched && addCandidateFormBasicDetails.controls['candidateEmail'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['candidateEmail'].errors?.['required']">Please enter a valid Email.</small>
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['candidateEmail'].errors?.['email']">Please enter a valid Email.</small>
+          </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="mobileNo">Mobile No<span class="required-star">*</span></label>
+            <input *ngIf="!isAdmin && isEditBool" type="tel" formControlName="candidateMobile" placeholder="Enter Mobile No" readonly class="readonly-input">
+            <input *ngIf="!isAdmin && !isEditBool" type="tel" formControlName="candidateMobile" placeholder="Enter Mobile No">
+
+            <input *ngIf="isAdmin" type="tel" formControlName="candidateMobile" placeholder="Enter Mobile No">
+            <div *ngIf="addCandidateFormBasicDetails.controls['candidateMobile'].touched && addCandidateFormBasicDetails.controls['candidateMobile'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['candidateMobile'].errors?.['required']">Mobile is required.</small>
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['candidateMobile'].errors?.['pattern']">Only numbers are allowed.</small>
+          </div>
+          </div>
+          
+          <div class="form-group">
+  <label for="profileReceivedDate">
+    Profile Received Date<span class="required-star">*</span>
+  </label>
+
+  <p-calendar
+    formControlName="profileReceivedDate"
+    [showIcon]="true"
+    class="date-bar"
+    dateFormat="mm/dd/yy"
+    placeholder="Select a date"
+    [showButtonBar]="true"
+    [maxDate]="today"
+    styleClass="custom"
+  ></p-calendar>
+
+  <div *ngIf="addCandidateFormBasicDetails.controls['profileReceivedDate'].touched && addCandidateFormBasicDetails.controls['profileReceivedDate'].invalid">
+    <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['profileReceivedDate'].errors?.['required']">This field is required.</small>
+  </div>
+</div>
+
+          
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="profileSource">Profile Source<span class="required-star">*</span></label>
+            <select formControlName="profileSource">
+              <option value="" disabled selected>Select Profile Source</option>
+              <option *ngFor="let source of profileSource" [value]="source">{{source}}</option>
+            </select>
+            <div *ngIf="addCandidateFormBasicDetails.controls['profileSource'].touched && addCandidateFormBasicDetails.controls['profileSource'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['profileSource'].errors?.['required']">This field is required.</small>
+          </div>
+          </div>
+          <div class="form-group">
+            <label for="subSource">Sub Source</label>
+            <input type="text" id="subSource" placeholder="Enter Sub Source" formControlName="subSource">
+          </div>
+        </div>
+        <!-- Employment Type Radio Buttons -->
+        <div class="form-row radio-group">
+          <label>Fresher / Lateral<span class="required-star">*</span></label>
+          <div class="radio-buttons" [formGroup]="addCandidateFormBasicDetails">
+            <label>
+              <input type="radio" value="Fresher" formControlName="employmentType" />
+              Fresher
+            </label>
+            <label>
+              <input type="radio" value="Lateral" formControlName="employmentType" />
+              Lateral
+            </label>
+            <div *ngIf="addCandidateFormBasicDetails.controls['employmentType'].touched && addCandidateFormBasicDetails.controls['employmentType'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormBasicDetails.controls['employmentType'].errors?.['required']">This field is required.</small>
+          </div>
+          </div>
+          
+        </div>
+
+        <!-- <div class="form-row file-upload">
+          <label>Resume Upload</label>
+          <div class="file-drop-zone">
+            <div class="file-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M28 20V25.3333C28 26.0406 27.719 26.7189 27.219 27.219C26.7189 27.719 26.0406 28 25.3333 28H6.66667C5.95942 28 5.28115 27.719 4.78105 27.219C4.28095 26.7189 4 26.0406 4 25.3333V20M9.33333 13.3333L16 20M16 20L22.6667 13.3333M16 20V4" stroke="black" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <p>Drag and drop your file here or click to browse</p>
+            <span class="file-formats">Supported formats: PDF, DOCX, DOC (Max 5MB)</span>
+            <button type="button" class="browse-files">Browse Files</button>
+          </div>
+        </div> -->
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="formReset('Basic')">Reset</button>
+          <button type="submit" class="btn-save" [disabled]="addCandidateFormBasicDetails.invalid">Next</button>
+        </div>
+      </form>
+  
+      <!-- Professional Details Tab -->
+      <form class="form-section" id="professional-details" *ngIf="selectedTab === 'professional-details'" [formGroup]="addCandidateFormProfDetails" (ngSubmit)="onAddCandidateFormSubmit('prof-info')">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentCompany">Current Company<span class="required-star">*</span></label>
+            <input type="text" formControlName="currentCompany" placeholder="Enter Current Company">
+            <div *ngIf="addCandidateFormProfDetails.controls['currentCompany'].touched && addCandidateFormProfDetails.controls['currentCompany'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormProfDetails.controls['currentCompany'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="currentDesignation">Current Designation<span class="required-star">*</span></label>
+            <input type="text" formControlName="currentDesignation" placeholder="Enter Current Designation">
+            <div *ngIf="addCandidateFormProfDetails.controls['currentDesignation'].touched && addCandidateFormProfDetails.controls['currentDesignation'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormProfDetails.controls['currentDesignation'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="positionApplied">Position Applied for<span class="required-star">*</span></label>
+            <select formControlName="positionId">
+              <option value="" disabled selected>Select Position Applied For</option>
+              <option *ngFor="let position of positions" [value]="position.positionId">{{ position.positionName }}</option>
+            </select>
+            <div *ngIf="addCandidateFormProfDetails.controls['positionId'].touched && addCandidateFormProfDetails.controls['positionId'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormProfDetails.controls['positionId'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="experience-cont">
+              <div>
+                <label for="experience">Experience (in Years)<span class="required-star">*</span></label>
+                <select formControlName="experienceInYears">
+                  <option value="" disabled selected>Select Experience</option>
+                  <option *ngFor="let exp of experienceYears" [value]="exp">{{ exp }}</option>
+                </select>
+                <div *ngIf="addCandidateFormProfDetails.controls['experienceInYears'].touched && addCandidateFormProfDetails.controls['experienceInYears'].invalid">
+                <small class="required-field" *ngIf="addCandidateFormProfDetails.controls['experienceInYears'].errors?.['required']">This field is required.</small>
+                </div>
+              </div>
+  
+              <div>
+                <label for="experience">Experience (in Months)<span class="required-star">*</span></label>
+                <select formControlName="experienceInMonths">
+                  <option value="" disabled selected>Select Experience</option>
+                  <option *ngFor="let exp of experienceMonths" [value]="exp">{{ exp }}</option>
+                </select>
+                <div *ngIf="addCandidateFormProfDetails.controls['experienceInMonths'].touched && addCandidateFormProfDetails.controls['experienceInMonths'].invalid">
+                <small class="required-field" *ngIf="addCandidateFormProfDetails.controls['experienceInMonths'].errors?.['required']">This field is required.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="formReset('Prof')">Reset</button>
+          <button type="submit" class="btn-save" [disabled]="addCandidateFormProfDetails.invalid">Next</button>
+        </div>
+      </form>
+  
+      <!-- Skills & Speciality Tab -->
+      <form class="form-section" id="skills-speciality" *ngIf="selectedTab === 'skills-speciality'" [formGroup]="addCandidateFormSkills" (ngSubmit)="onAddCandidateFormSubmit('skills-info')">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="softwareWorked">Software Worked<span class="required-star">*</span></label>
+            <textarea formControlName="softwareWorked" class="text-area" placeholder="Enter software, Tools, Technologies the candidate worked with"></textarea>
+            <small>Separate items with commas</small>
+            <div *ngIf="addCandidateFormSkills.controls['softwareWorked'].touched && addCandidateFormSkills.controls['softwareWorked'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormSkills.controls['softwareWorked'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="skills">Skills<span class="required-star">*</span></label>
+            <textarea formControlName="candidateSkills" class="text-area" placeholder="Enter Skills"></textarea>
+            <small>Separate items with commas</small>
+            <div *ngIf="addCandidateFormSkills.controls['candidateSkills'].touched && addCandidateFormSkills.controls['candidateSkills'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormSkills.controls['candidateSkills'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="formReset('Skills')">Reset</button>
+          <button type="submit" class="btn-save" [disabled]="addCandidateFormSkills.invalid">Next</button>
+        </div>
+      </form>
+  
+      <!-- Compensation & Location Tab -->
+      <form class="form-section active" id="compensation-location" *ngIf="selectedTab === 'compensation-location'" [formGroup]="addCandidateFormCompensationLocation" (ngSubmit)="finalFormSubmit(submitAction)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentTakeHome">Current CTC (Annually)<span class="required-star">*</span></label>
+            <input type="text" formControlName="currentCtc" placeholder="Enter Current Salary">
+            <div *ngIf="addCandidateFormCompensationLocation.controls['currentCtc'].touched && addCandidateFormCompensationLocation.controls['currentCtc'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['currentCtc'].errors?.['required']">This field is required.</small>
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['currentCtc'].errors?.['pattern']">Only numbers are allowed.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="expectedTakeHome">Expected CTC (Annually)<span class="required-star">*</span></label>
+            <input type="text" formControlName="expectedCtc" placeholder="Enter Expected Salary">
+            <div *ngIf="addCandidateFormCompensationLocation.controls['expectedCtc'].touched && addCandidateFormCompensationLocation.controls['expectedCtc'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['expectedCtc'].errors?.['required']">This field is required.</small>
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['expectedCtc'].errors?.['pattern']">Only numbers are allowed.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentTakeHome">Current Gross (Monthly)<span class="required-star">*</span></label>
+            <input type="text" formControlName="currentGross" placeholder="Enter Current Salary">
+            <div *ngIf="addCandidateFormCompensationLocation.controls['currentGross'].touched && addCandidateFormCompensationLocation.controls['currentGross'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['currentGross'].errors?.['required']">This field is required.</small>
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['currentGross'].errors?.['pattern']">Only numbers are allowed.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="expectedTakeHome">Expected Gross (Monthly)<span class="required-star">*</span></label>
+            <input type="text" formControlName="expectedGross" placeholder="Enter Expected Salary">
+            <div *ngIf="addCandidateFormCompensationLocation.controls['expectedGross'].touched && addCandidateFormCompensationLocation.controls['expectedGross'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['expectedGross'].errors?.['required']">This field is required.</small>
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['expectedGross'].errors?.['pattern']">Only numbers are allowed.</small>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="noticePeriod">Notice Period<span class="required-star">*</span></label>
+            <select formControlName="noticePeriodId">
+              <option value="" disabled selected>Select Notice Period</option>
+              <option *ngFor="let noticePeriod of noticePeriodOptions" [value]="noticePeriod.noticePeriodId">{{ noticePeriod.noticePeriodName }}</option>
+            </select>
+            <div *ngIf="addCandidateFormCompensationLocation.controls['noticePeriodId'].touched && addCandidateFormCompensationLocation.controls['noticePeriodId'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['noticePeriodId'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="currentLocation">Current Location<span class="required-star">*</span></label>
+            <input type="text" formControlName="currentLocation" placeholder="Enter Current Location">
+
+            <div *ngIf="addCandidateFormCompensationLocation.controls['currentLocation'].touched && addCandidateFormCompensationLocation.controls['currentLocation'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['currentLocation'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="preferredLocation">Preferred Location<span class="required-star">*</span></label>
+            <select formControlName="preferredLocation">
+              <option value="" disabled selected>Select Preferred Location</option>
+              <option *ngFor="let loc of preferredLocations" [value]="loc">{{ loc }}</option>
+            </select>
+            <div *ngIf="addCandidateFormCompensationLocation.controls['preferredLocation'].touched && addCandidateFormCompensationLocation.controls['preferredLocation'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['preferredLocation'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="preferredArea">Preferred Locality<span class="required-star">*</span></label>
+            <input type="text" formControlName="preferredArea" placeholder="Enter Current Location">
+
+            <div *ngIf="addCandidateFormCompensationLocation.controls['preferredArea'].touched && addCandidateFormCompensationLocation.controls['preferredArea'].invalid">
+            <small class="required-field" *ngIf="addCandidateFormCompensationLocation.controls['preferredArea'].errors?.['required']">This field is required.</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="formReset('CompLoc')">Reset</button>
+          <div class="add-save-button" *ngIf="isEdit!='Edit'">
+            <button type="submit" class="btn-save-add" [disabled]="addCandidateFormCompensationLocation.invalid" (click)="submitAction='add'">Save & Add Another</button>
+            <button type="submit" class="btn-save-view" [disabled]="addCandidateFormCompensationLocation.invalid" (click)="submitAction='view'">Save & View Profile</button>
+        </div>
+        <div class="add-save-button" *ngIf="isEdit==='Edit'">
+            <button type="submit" class="btn-save-view" [disabled]="addCandidateFormCompensationLocation.invalid" (click)="submitAction='view'">Update & View Profile</button>
+        </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

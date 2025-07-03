@@ -1,0 +1,36 @@
+<!-- sidenavbar.component.html -->
+<div class="sidenav">
+    <div class="logo">
+      <img src="assets/asprcmlogo.svg" alt="Logo"/>
+    </div>
+    
+    <ul class="menu">
+      <li><a routerLink="home-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/home.svg" alt="Home"/><span>Home</span></a></li>
+      
+      <div class="section-title">RECRUITMENT</div>
+      <li><a routerLink="overview-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/check-square.svg" alt="Overview"/><span>Overview</span></a></li>
+      <li class="dropdown">
+        <a (click)="toggleSubmenu()" [class.active]="submenuOpen">
+          <img src="assets/candRep.svg" alt="Candidate Repository"/>
+          <span>Candidate Repository</span>
+          <img src="assets/uparrow.svg" class="dropdown-arrow" [class.rotate]="submenuOpen" />        </a>
+        <ul class="submenu" [class.open]="submenuOpen">
+          <li><a [routerLink]="['candidate-repo/dashboard']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">Dashboard<span class="dot"></span></a></li>
+          <li><a [routerLink]="['candidate-repo/candidates']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">All Candidates<span class="dot"></span></a></li>
+          <li><a [routerLink]="['candidate-repo/add-candidate']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">Add Candidate<span class="dot"></span></a></li>
+          <li><a [routerLink]="['candidate-repo/import-candidates']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">Import Candidates<span class="dot"></span></a></li>
+          <li><a [routerLink]="['candidate-repo/consultancy-portal']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">Consultancy Portal<span class="dot"></span></a></li>
+        </ul>
+      </li>
+      
+      <li><a routerLink="my-requests-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/file-text (1).svg" alt="My Request"/><span>My Request</span></a></li>
+      <li><a routerLink="jobs-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/paperclip.svg" alt="Jobs"/><span>Jobs</span></a></li>
+      
+      <div class="section-title">ORGANIZATION</div>
+      <li><a routerLink="employee-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/users.svg" alt="Employee"/><span>Employee</span></a></li>
+      <li><a routerLink="structure-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/slack.svg" alt="Structure"/><span>Structure</span></a></li>
+      <li><a routerLink="reports-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/airplay.svg" alt="Reports"/><span>Reports</span></a></li>
+      <li><a routerLink="settings-not-found-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"><img src="assets/settings.svg" alt="Settings"/><span>Settings</span></a></li>
+      <li><a routerLinkActive="active-link" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}" (click)="logout()"><img src="assets/logout.svg" alt="Logout"/><span>Logout</span></a></li>
+    </ul>
+  </div>

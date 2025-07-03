@@ -1,0 +1,406 @@
+<!-- Breadcrumb Navigation -->
+<!-- <div class="breadcrumb">
+    <span>Candidate Repository</span>
+    <span class="separator">></span>
+    <span>Add Candidate</span>
+  </div> -->
+  
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Header Section -->
+    <div class="header">
+        <button (click)="navigatingBack()"class="back-button">
+        <img src="assets/arrow-left.svg" class="icon-arrow-left">
+          Back</button>
+      <h1 class="page-title">Candidate Profile</h1>
+      <div class="header-actions">
+        <button class="btn-download">
+          <img src="assets/download.svg" class="icon-download">
+          Download Resume
+        </button>
+        <button class="btn-status-update" (click)="statusPopupOpen()">
+          <img src="assets/eye.svg" class="icon-eye">
+          Candidate Status Update
+        </button>
+      </div>
+    </div>
+  
+    <!-- Content Section -->
+    <div class="content-container">
+      <!-- Left Sidebar -->
+      <div class="sidebar">
+        <!-- Profile Summary -->
+        <div class="profile-summary">
+          <div class="avatar">{{ candidate?.basicInfo?.candidateName?.charAt(0).toUpperCase() || 'N/A' }}</div>
+          <h2 class="name">{{candidate?.basicInfo?.candidateName || '-' }}</h2>
+          <p class="job-title">{{candidate?.professionalDetails?.currentDesignation || '-' }}</p>
+          <hr>
+          
+          <!-- Contact Information -->
+          <div class="contact-info">
+            <div class="info-item">
+              <img src="assets/mail.svg"  class="icon-email">
+              <div>
+                <span class="info-label">Email</span>
+                <span class="info-value truncate-text">{{candidate?.basicInfo?.candidateEmail || '-' }}</span>
+              </div>
+            </div>
+            
+            <div class="info-item">
+                <img src="assets/phone.svg" class="icon-phone">
+                <div>
+                  <span class="info-label">Phone</span>
+                  <span class="info-value truncate-text">{{candidate?.basicInfo?.candidateMobile || '-' }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <img src="assets/Frame.svg" class="icon-location">
+                <div>
+                  <span class="info-label">Current Location</span>
+                  <span class="info-value truncate-text">{{candidate?.compensationLocation?.currentLocation || '-' }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <img src="assets/briefcase.svg" class="icon-company">
+                <div>
+                  <span class="info-label">Current Company</span>
+                  <span class="info-value truncate-text">{{candidate?.professionalDetails?.currentCompany || '-' }}</span>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <img src="assets/cloud-rain.svg" class="icon-experience">
+                <div>
+                  <span class="info-label">Experience</span>
+                  <ng-container *ngIf="(candidate?.professionalDetails?.experienceInYears || 0) > 0 || (candidate?.professionalDetails?.experienceInMonths || 0) > 0; else noExperience">
+                    <span class="info-value truncate-text">
+                      <ng-container *ngIf="(candidate?.professionalDetails?.experienceInYears || 0) > 0">
+                        {{ candidate?.professionalDetails?.experienceInYears }} {{ candidate?.professionalDetails?.experienceInYears === 1 ? 'Year' : 'Years' }}
+                      </ng-container>
+                      <ng-container *ngIf="(candidate?.professionalDetails?.experienceInMonths || 0) > 0">
+                        {{ candidate?.professionalDetails?.experienceInYears ? ' ' : '' }}
+                        {{ candidate?.professionalDetails?.experienceInMonths }} {{ candidate?.professionalDetails?.experienceInMonths === 1 ? 'Month' : 'Months' }}
+                      </ng-container>
+                    </span>
+                  </ng-container>
+                  <ng-template #noExperience>
+                    <span class="info-value truncate-text">-</span>
+                  </ng-template>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <img src="assets/calendar.svg" class="icon-calendar">
+                <div>
+                  <span class="info-label">Profile Received</span>
+                  <span class="info-value">{{ candidate?.basicInfo?.profileReceivedDate ? (candidate.basicInfo.profileReceivedDate | date:'dd MMM yyyy') : '-'  }}</span>
+                </div>
+              </div>
+              </div>
+              </div>
+              
+              <!-- Source Information -->
+              <div class="source-info">
+                <h3>Source Information</h3>
+              
+                <div class="contact">
+                      <div class="info-item">
+                          <img src="assets/search.svg" class="icon-search">
+                          <div>
+                            <span class="info-label">Profile Source</span>
+                            <span class="info-value truncate-text">{{candidate?.basicInfo?.profileSource || '-' }}</span>
+                          </div>
+                      </div>
+                    
+                      <div class="info-item">
+                        <img src="assets/loader.svg" class="icon-subsource">
+                        <div>
+                          <span class="info-label">Sub Source</span>
+                          <span class="info-value truncate-text">{{candidate?.basicInfo?.subSource || '-' }}</span>
+                        </div>
+                      </div>
+                    
+                      <div class="info-item">
+                        <img src="assets/user.svg" class="icon-user">
+                        <div>
+                          <span class="info-label">Candidate Type</span>
+                          <span class="info-value truncate-text">{{candidate?.basicInfo?.employmentType || '-' }}</span>
+                        </div>
+                      </div>
+                </div>
+              </div>
+              </div>
+              
+              <!-- Right Content Area -->
+              <div class="content">
+                <!-- Candidate Status Card -->
+                <div class="card status-card">
+              
+                  <!-- <div class="status-details">    -->
+                    <!-- <div class="status-item"> -->
+                      <!-- <div>
+                        <span class="status-text" >Candidate Status</span>
+                        <span class="subtitle">Current recruitment stage and next steps</span>
+                      </div> -->
+              
+                      <!-- <div class="dropdown">
+                        <select>
+                          <option>Screening</option>
+                        </select>
+                        <img class="icon-dropdown" src="assets/chevron-down.svg">
+                      </div> -->
+                    <!-- </div> -->
+
+                    <div class="status-actions">
+                      <div>
+                        <span class="info-label">Position Applied For</span>
+                        <span class="info-value truncate-text">{{candidate?.position?.positionName || '-' }}</span>
+                      </div>
+                      <div>
+                        <!-- <button class="btn-schedule">
+                          Schedule Interview
+                        </button> -->
+                      </div>
+                    </div>
+                  <!-- </div> -->
+              
+
+                </div>
+              
+                <!-- Tab Navigation -->
+                <div class="tab-navigation">
+                    <div class="tab" [class.active]="activeTab === 'details'" (click)="setTab('details')">Details</div>
+                    <div class="tab" [class.active]="activeTab === 'compensation'" (click)="setTab('compensation')">Compensation</div>
+                    <div class="tab" [class.active]="activeTab === 'activity'" (click)="setTab('activity')">Activity</div>
+                </div>
+              
+                <!-- Professional Information Card -->
+                <div class="card-detail" *ngIf="activeTab === 'details'">
+                  <div class="card info-card">
+                    <h3>Professional Information</h3>
+              
+                    <div class="info-grid">
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Current Designation</span>
+                          <span class="info-value truncate-text">{{candidate?.professionalDetails?.currentDesignation || '-' }}</span>
+                        </div>
+                        <div class="info-col">
+                          <span class="info-label right">Position Applied For</span>
+                          <div class="experience">
+                            <span class="info-value truncate-text right">{{candidate?.position?.positionName}}</span>
+                          </div>
+                        </div>
+                      </div>
+              
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Current Company</span>
+                          <span class="info-value truncate-text">{{candidate?.professionalDetails?.currentCompany || '-' }}</span>
+                        </div>
+                        <div class="info-col">
+                          <span class="info-label right">Experience</span>
+                          <div class="experience">
+                            
+                            <ng-container *ngIf="(candidate?.professionalDetails?.experienceInYears || 0) > 0 || (candidate?.professionalDetails?.experienceInMonths || 0) > 0; else noExperience">
+                              
+                              <span class="info-value truncate-text right" *ngIf="(candidate?.professionalDetails?.experienceInYears || 0) > 0">
+                                {{ candidate?.professionalDetails?.experienceInYears }} {{ candidate?.professionalDetails?.experienceInYears === 1 ? 'Year' : 'Years' }}
+                              </span>
+                        
+                              <span class="info-value truncate-text right" *ngIf="(candidate?.professionalDetails?.experienceInMonths || 0) > 0">
+                                {{ candidate?.professionalDetails?.experienceInMonths }} {{ candidate?.professionalDetails?.experienceInMonths === 1 ? 'Month' : 'Months' }}
+                              </span>
+                        
+                            </ng-container>
+                        
+                            <ng-template #noExperience>
+                              <span class="info-value truncate-text">-</span>
+                            </ng-template>
+                        
+                          </div>
+                        </div>
+                        
+                      </div>
+              
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Candidate Type</span>
+                          <span class="info-value truncate-text">{{candidate?.basicInfo?.employmentType || '-' }}</span>
+                        </div>
+                        <!-- <div class="info-col">
+                          <span class="info-label">Speciality</span>
+                          <span class="info-value">Front End Angular</span>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+              
+                  <!-- Skills Card -->
+                  <div class="card info-card">
+                    <h3>Skills & Software</h3>
+                    <div class="skills-card">
+                      <div class="skills-section">
+                        <span class="info-label">Candidate Skills</span>
+                        <span class="info-value truncate-text">{{candidate?.skills?.candidateSkills || '-' }}</span>
+                      </div>                    
+                      <div class="skills-section">
+                        <span class="info-label right">Software Worked</span>
+                       <div class="experience">
+                        <span class="info-value truncate-text right">{{candidate?.position?.positionName}}</span>
+                       </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-detail" *ngIf="activeTab === 'compensation'">
+                  <div class="card info-card">
+                    <h3>Compensation & Location</h3>
+              
+                    <div class="info-grid">
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Current CTC</span>
+                          <span class="info-value truncate-text">{{candidate?.compensationLocation?.currentCtc || '-' }}</span>
+                        </div>
+                        <div class="info-col">
+                          <span class="info-label right">Expected CTC</span>
+                          <div class="experience">
+                            <span class="info-value truncate-text right">{{candidate?.compensationLocation?.expectedCtc || '-' }}</span>
+                          </div>
+                        </div>
+                      </div>
+              
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Current Gross</span>
+                          <span class="info-value truncate-text">{{candidate?.compensationLocation?.currentGross || '-' }}</span>
+                        </div>
+                        <div class="info-col">
+                          <span class="info-label right">Expected Gross</span>
+                          <div class="experience">
+                            <span class="info-value truncate-text right">{{candidate?.compensationLocation?.expectedGross || '-' }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Notice Period</span>
+                          <span class="info-value truncate-text">{{candidate?.compensationLocation?.noticePeriodName || '-' }}</span>
+                        </div>
+                        <div class="info-col">
+                          <span class="info-label right">Current Location</span>
+                          <div class="experience">
+                            <span class="info-value truncate-text right">{{candidate?.compensationLocation?.currentLocation || '-' }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="info-row">
+                        <div class="info-col">
+                          <span class="info-label">Preferred Location</span>
+                          <span class="info-value truncate-text">{{candidate?.compensationLocation?.preferredLocation || '-' }}</span>
+                        </div>
+                        <div class="info-col">
+                          <span class="info-label right">Preferred Locality</span>
+                          <div class="experience">
+                            <span class="info-value truncate-text right">{{candidate?.compensationLocation?.preferredArea || '-' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              
+            </div>
+        </div>
+        <div class="card-detail" *ngIf="activeTab === 'activity'">
+            <div class="card info-card">
+                <h3>Activity Timeline</h3>                
+                  <div class="timeline-item" *ngIf="candidate?.activity?.profileReviewedDateTime != '0001-01-01T00:00:00'">
+                    <div class="timeline-date">{{candidate?.activity?.profileReviewedDateTime | date}}</div>
+                    <div class="timeline-content">
+                      <div class="timeline-line"></div>
+                      <div class="timeline-dot"></div>
+                      <div class="timeline-details">
+                        <div class="timeline-action">Profile Reviewed</div>
+                        <div class="timeline-user">{{candidate?.activity?.profileReviewedBy}}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="timeline-item">
+                    <div class="timeline-date">{{candidate?.activity?.profileAddedDateTime | date}}</div>
+                    <div class="timeline-content">
+                      <div class="timeline-line"></div>
+                      <div class="timeline-dot"></div>
+                      <div class="timeline-details">
+                        <div class="timeline-action">Profile Added</div>
+                        <div class="timeline-user">{{candidate?.activity?.profileAddedBy}}</div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="statusModal" *ngIf="isVisible">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div>
+          <h4 class="status-update-title">Candidate Status Update</h4>
+          <p class="status-description">Mark the candidate's current status based on your outreach efforts</p>
+        </div>
+
+        <!-- Status Buttons -->
+        <div class="status-buttons">
+          <button
+            class="status-btn active"
+            [ngClass]="{ active: selectedStatus === 'Interested' }"
+            (click)="selectedStatus = 'Interested'"
+          >
+            Interested
+          </button>
+          <button
+            class="status-btn"
+            [ngClass]="{ active: selectedStatus === 'Not Interested' }"
+            (click)="selectedStatus = 'Not Interested'"
+          >
+            Not Interested
+          </button>
+          <button
+            class="status-btn"
+            [ngClass]="{ active: selectedStatus === 'CNR' }"
+            (click)="selectedStatus = 'CNR'"
+          >
+            CNR
+          </button>
+        </div>
+  
+        <!-- Notes Section -->
+        <div class="notes-section">
+          <label for="notes">Notes</label>
+          <textarea
+            id="notes"
+            [(ngModel)]="notes"
+            placeholder="Enter Notes"
+          ></textarea>
+        </div>
+  
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button class="btn-close" (click)="statusPopupClose()">Close</button>
+          <button class="btn-submit" (click)="submitStatus()" [disabled]="!selectedStatus">Submit</button>
+        </div>
+  
+        <!-- Optional Success Message -->
+        <div *ngIf="showSuccessMessage" class="success-message">
+          ✅ Status and Notes submitted successfully!
+        </div>
+      </div>
+    </div>
+  </div>
+  

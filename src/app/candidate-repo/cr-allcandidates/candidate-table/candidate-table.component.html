@@ -1,0 +1,473 @@
+<div class="card compact-table">
+  <p-table
+    #table
+    [scrollable]="true"
+    scrollHeight="700px"
+    [value]="candidates"
+    [lazy]="true"
+    scrollDirection="both"
+    [paginator]="true"
+    [rows]="selectedRows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [globalFilterFields]="globalFilterFields"
+    [loading]="loading"
+    (onLazyLoad)="loadCandidates($event)"
+    [sortMode]="'single'"
+    filterDisplay="menu"
+    [responsiveLayout]="'scroll'"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    class="styled-table p-datatable-sm"
+  >
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+        <div class="flex justify-between items-center">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="onGlobalFilter($event)"
+              placeholder="Search(Name, Mobile, Email)"
+              class="p-inputtext-sm"
+            />
+          </span>
+        </div> 
+        <div class="filter-options">
+          <button class="clear-tag"  [ngClass]="{ 'selected': selectedReviewStatus === '' }" (click)="reviewStatusFilter('')">
+            Clear
+          </button>
+          <button class="touch-tag" [ngClass]="{ 'selected': selectedReviewStatus === 'true' }" (click)="reviewStatusFilter('true')">
+            Touched
+          </button>
+          <button class="untouch-tag" [ngClass]="{ 'selected': selectedReviewStatus === 'false' }" (click)="reviewStatusFilter('false')">
+            Untouched
+          </button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+  <tr>
+    <th pSortableColumn="candidateName">
+      <!-- <span class="rowHeading">Candidate Name</span> -->
+      <div class="filters">
+        <span class="rowHeading">Candidate Name</span>
+        <p-columnFilter style="margin-left:auto;" field="candidateName" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="candidateEmail">
+      <div class="filters">
+        <span class="rowHeading">Email</span>
+        <p-columnFilter style="margin-left:auto;" field="candidateEmail" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="candidateMobile">
+      
+      <div class="filters">
+        <span class="rowHeading">Mobile</span>
+        <p-columnFilter style="margin-left:auto;" field="candidateMobile" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="reviewAction">
+      
+      <div class="filters">
+        <span class="rowHeading">Status</span>
+        <p-columnFilter style="margin-left:auto;" field="reviewAction" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <!-- <th pSortableColumn="lastUpdatedDateTime">
+      <div class="filters">
+        <span class="rowHeading">Last Updated</span>
+        <p-columnFilter 
+          style="margin-left:auto;" 
+          field="lastUpdatedDateTime" 
+          display="menu" 
+          dataType="date"
+          matchMode="dateIs"
+          [showOperator]="false" 
+          [showMatchModes]="false"
+          [showMenu]="false">
+          <ng-template pTemplate="filterElement" let-value let-filter="filterCallback">
+            <p-calendar
+              [(ngModel)]="lastUpdatedDateFilter"
+              (onSelect)="filter($event)"
+              dateFormat="yy-mm-dd"
+              placeholder="Select date"
+              [showIcon]="true"
+              [showClear]="true">
+            </p-calendar>
+          </ng-template>
+        </p-columnFilter>
+      </div>
+    </th> -->
+
+    <th pSortableColumn="lastUpdatedDateTime">
+      <div class="filters">
+        <span class="rowHeading">Last Updated</span>
+        <p-columnFilter
+          style="margin-left:auto;"
+          field="lastUpdatedDateTime"
+          type="date"
+          display="menu"
+          dataType="date"
+          
+          [showOperator]="false"
+          
+          [showMenu]="true"
+          [showApplyButton]="false"
+          [showClearButton]="false">
+          <ng-template pTemplate="filterElement" let-value let-filter="filterCallback">
+  <p-calendar
+    [(ngModel)]="lastUpdatedDateFilter"
+    (onSelect)="onDateFilterChange($event, 'lastUpdatedDateTime', filter)"
+    (onClear)="onDateFilterChange(null, 'lastUpdatedDateTime', filter)"
+    dateFormat="yy-mm-dd"
+    placeholder="Select date"
+    [showIcon]="true"
+    [showClear]="true">
+
+  </p-calendar>
+</ng-template>
+        </p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="reviewNotes">
+      
+      <div class="filters">
+        <span class="rowHeading">Notes</span>
+        <div class="icon-filter">
+          <p-columnFilter style="margin-left:auto;" field="reviewNotes" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+        </div>
+      </div>
+    </th>
+
+    <th pSortableColumn="positionName">
+      
+      <div class="filters">
+        <span class="rowHeading">Position Applied</span>
+        <p-columnFilter style="margin-left:auto;" field="positionName" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="experienceInYears">
+      
+      <div class="filters">
+        <span class="rowHeading">Experience(Yrs)</span>
+        <p-columnFilter style="margin-left:auto;" field="experienceInYears" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="experienceInMonths">
+      
+      <div class="filters">
+        <span class="rowHeading">Experience(Months)</span>
+        <p-columnFilter style="margin-left:auto;" field="experienceInMonths" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="noticePeriodName">
+      
+      <div class="filters">
+        <span class="rowHeading">Notice</span>
+        <p-columnFilter style="margin-left:auto;" field="noticePeriodName" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="currentCompany">
+      
+      <div class="filters">
+        <span class="rowHeading">Current Company</span>
+        <p-columnFilter style="margin-left:auto;" field="currentCompany" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="currentDesignation">
+      
+      <div class="filters">
+        <span class="rowHeading">Current Designation</span>
+        <p-columnFilter style="margin-left:auto;" field="currentDesignation" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="type">
+      
+      <div class="filters">
+        <span class="rowHeading">Type</span>
+        <p-columnFilter style="margin-left:auto;" field="type" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="currentLocation">
+      
+      <div class="filters">
+        <span class="rowHeading">Location</span>
+        <p-columnFilter style="margin-left:auto;" field="currentLocation" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="candidateSkills">
+      
+      <div class="filters">
+        <span class="rowHeading">Speciality</span>
+        <p-columnFilter style="margin-left:auto;" field="candidateSkills" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="softwareWorked">
+      
+      <div class="filters">
+        <span class="rowHeading">Software Worked</span>
+        <p-columnFilter style="margin-left:auto;" field="softwareWorked" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="currentCtc">
+      <div class="filters">
+        <span class="rowHeading">Current CTC(A)</span>
+        <p-columnFilter style="margin-left:auto;" field="currentCtc" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="expectedCtc">
+      
+      <div class="filters">
+        <span class="rowHeading">Expected CTC(A)</span>
+        <p-columnFilter style="margin-left:auto;" field="expectedCtc" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+
+    <th pSortableColumn="currentGross">
+      <div class="filters">
+        <span class="rowHeading">Current Gross(M)</span>
+        <p-columnFilter style="margin-left:auto;" field="currentGross" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="expectedGross">
+      <div class="filters">
+        <span class="rowHeading">Expected Gross(M)</span>
+        <p-columnFilter style="margin-left:auto;" field="expectedGross" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+
+
+    <th pSortableColumn="preferredLocation">
+      
+      <div class="filters">
+        <span class="rowHeading">Preferred Location</span>
+        <p-columnFilter style="margin-left:auto;" field="preferredLocation" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="preferredArea">
+      
+      <div class="filters">
+        <span class="rowHeading">Preferred Area</span>
+        <p-columnFilter style="margin-left:auto;" field="preferredArea" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="profileSource">
+      
+      <div class="filters">
+        <span class="rowHeading">Source</span>
+        <p-columnFilter style="margin-left:auto;" field="profileSource" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="subSource">
+      
+      <div class="filters">
+        <span class="rowHeading">Sub Source</span>
+        <p-columnFilter style="margin-left:auto;" field="subSource" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="profileReceivedDate">
+      <div class="filters">
+        <span class="rowHeading">Received Date</span>
+        <p-columnFilter
+          style="margin-left:auto;"
+          field="profileReceivedDate"
+          type="date"
+          display="menu"
+          dataType="date"
+          [showOperator]="false"
+          [showMenu]="true"
+          [showApplyButton]="false"
+          [showClearButton]="false">
+          <ng-template pTemplate="filterElement" let-value let-filter="filterCallback">
+  <p-calendar
+    [(ngModel)]="profileReceivedDateFilter"
+    (onSelect)="onDateFilterChange($event, 'profileReceivedDate', filter)"
+    (onClear)="onDateFilterChange(null, 'profileReceivedDate', filter)"
+    dateFormat="yy-mm-dd"
+    placeholder="Select date"
+    [showIcon]="true"
+    [showClear]="true">
+
+  </p-calendar>
+</ng-template>
+        </p-columnFilter>
+      </div>
+    </th>
+
+    <th pSortableColumn="profileAddedBy">
+      
+      <div class="filters">
+        <span class="rowHeading">Profile Added By</span>
+        <p-columnFilter style="margin-left:auto;" field="profileAddedBy" display="menu" [showOperator]="false" [showMatchModes]="true"></p-columnFilter>
+      </div>
+    </th>
+
+    <!-- <th pSortableColumn="profileAddedDate">
+      <div class="filters">
+        <span class="rowHeading">Profile Added Date</span>
+        <p-columnFilter
+          style="margin-left:auto;"
+          field="profileAddedDate"
+          display="menu"
+          dataType="date"
+          matchMode="dateIs"
+          [showOperator]="false"
+          [showMatchModes]="false"
+          [showMenu]="false">
+          <ng-template pTemplate="filterElement" let-value let-filter="filterCallback">
+            <p-calendar
+              [(ngModel)]="profileAddedDateFilter"
+              (onSelect)="filter($event)"
+              dateFormat="yy-mm-dd"
+              placeholder="Select date"
+              [showIcon]="true"
+              [showClear]="true">
+            </p-calendar>
+          </ng-template>
+        </p-columnFilter>
+      </div>
+    </th> -->
+
+
+
+    <th pSortableColumn="profileAddedDateTime">
+      <div class="filters">
+        <span class="rowHeading">Profile Added Date</span>
+        <p-columnFilter
+          style="margin-left:auto;"
+          field="profileAddedDateTime"
+          type="date"
+          display="menu"
+          dataType="date"
+          
+          [showOperator]="false"
+          
+          [showMenu]="true"
+          [showClearButton]="false"
+          [showApplyButton]="false">
+          <ng-template pTemplate="filterElement" let-value let-filter="filterCallback">
+  <p-calendar
+    [(ngModel)]="profileAddedDateFilter"
+    (onSelect)="onDateFilterChange($event, 'profileAddedDateTime', filter)"
+    (onClear)="onDateFilterChange(null, 'profileAddedDateTime', filter)"
+    dateFormat="yy-mm-dd"
+    placeholder="Select date"
+    [showIcon]="true"
+    [showClear]="true">
+
+  </p-calendar>
+</ng-template>
+        </p-columnFilter>
+      </div>
+    </th>
+
+    <th>Actions</th>
+  </tr>
+</ng-template>
+
+
+    <ng-template pTemplate="body" let-candidate>
+      <tr>
+        <td [ngClass]="candidate.basicInfo.isReviewed ? 'td-touched' : 'td-untouched'">
+          <span class="truncate-text" [pTooltip]="candidate.basicInfo.candidateName">{{ candidate.basicInfo.candidateName }}</span>
+        </td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo.candidateEmail">{{ candidate.basicInfo.candidateEmail || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo.candidateMobile">{{ candidate.basicInfo.candidateMobile || '-' }}</span></td>
+        <td>
+          <span [ngClass]="getStatusClass(candidate.reviewStatus?.reviewAction)"  class="status-text"
+          [ngClass]="{
+            'text-green': candidate.reviewStatus?.reviewAction?.toLowerCase() == 'interested',
+            'text-red': candidate.reviewStatus?.reviewAction?.toLowerCase() == 'not interested',
+            'text-orange': candidate.reviewStatus?.reviewAction?.toLowerCase() == 'cnr'
+          }">
+          <span
+          *ngIf="candidate.reviewStatus?.reviewAction"
+          class="dot-icon"
+          [ngClass]="{
+            'bg-green': candidate.reviewStatus?.reviewAction?.toLowerCase() === 'interested',
+            'bg-red': candidate.reviewStatus?.reviewAction?.toLowerCase() === 'not interested',
+            'bg-orange': candidate.reviewStatus?.reviewAction?.toLowerCase() === 'cnr'
+          }"
+        ></span>
+          {{ candidate.reviewStatus?.reviewAction || '-' }}
+          </span>
+        </td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo.lastUpdatedDateTime">{{ candidate.basicInfo.lastUpdatedDateTime | date: 'shortDate' }}</span></td>
+        <td><span class="truncate-text " [pTooltip]="candidate.reviewStatus?.reviewNotes">{{ candidate.reviewStatus?.reviewNotes || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.position.positionName">{{ candidate.position.positionName || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.professionalDetails?.experienceInYears">{{ candidate.professionalDetails?.experienceInYears || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.professionalDetails?.experienceInMonths">{{ candidate.professionalDetails?.experienceInMonths || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.noticePeriodName">{{ candidate.compensationLocation?.noticePeriodName || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.professionalDetails?.currentCompany">{{ candidate.professionalDetails?.currentCompany || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.professionalDetails?.currentDesignation">{{ candidate.professionalDetails?.currentDesignation || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo?.employmentType">{{ candidate.basicInfo?.employmentType || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.currentLocation">{{ candidate.compensationLocation?.currentLocation || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.skills?.candidateSkills">{{ candidate.skills?.candidateSkills || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.skills?.softwareWorked">{{ candidate.skills?.softwareWorked || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.currentCtc">{{ candidate.compensationLocation?.currentCtc || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.expectedCtc">{{ candidate.compensationLocation?.expectedCtc || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.currentCtc">{{ candidate.compensationLocation?.currentGross || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.expectedCtc">{{ candidate.compensationLocation?.expectedGross || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.preferredLocation">{{ candidate.compensationLocation?.preferredLocation || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.compensationLocation?.preferredArea">{{ candidate.compensationLocation?.preferredArea || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo?.profileSource">{{ candidate.basicInfo?.profileSource || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo?.subSource">{{ candidate.basicInfo?.subSource || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.basicInfo?.profileReceivedDate">{{ candidate.basicInfo?.profileReceivedDate | date: 'shortDate'}}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.activity?.profileAddedBy">{{ candidate.activity?.profileAddedBy || '-' }}</span></td>
+        <td><span class="truncate-text" [pTooltip]="candidate.activity?.profileAddedDateTime">{{ candidate.activity?.profileAddedDateTime | date: 'shortDate'}}</span></td>
+
+        <td>
+          <p-overlayPanel #op>
+            <div class="p-d-flex p-flex-column">
+              <div class="actions-icon">
+                <button pButton type="button" label="View Profile" class="p-button-text text-left" (click)="viewProfile(candidate)"></button>
+                <button pButton type="button" label="Edit Profile" class="p-button-text text-left" (click)="editCandidate(candidate)"></button>
+              </div>
+            </div>
+          </p-overlayPanel>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-ellipsis-v"
+            class="p-button-rounded p-button-text"
+            (click)="op.toggle($event)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+  <tr>
+    <td colspan="26" class="text-center">
+      <div class="p-3">No data available</div>
+    </td>
+  </tr>
+</ng-template>  </p-table>
+</div>

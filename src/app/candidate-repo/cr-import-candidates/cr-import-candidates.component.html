@@ -1,0 +1,101 @@
+<div class="page-header">
+  <h2>Import Candidates</h2>
+</div>
+<div class="import-candidates-container">
+    <div class="import-section">
+      <div class="upload-box"
+      class="dropzone"
+      (drop)="onDrop($event)"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      [class.dragging]="isDragging"
+      >
+        <div class="upload-icon">
+            <img class="upload-file-img" src="assets/file-text.jpg">
+        </div>
+        <div class="upload-title">Upload your file</div>
+        <div class="upload-desc">
+          Drag and drop your CSV or Excel file here, or click to browse
+        </div>
+        <div class="upload-actions">
+          <select class="source-select">
+            <option>Naukri</option>
+          </select>
+          
+          <button type="button" (click)="triggerFileInput()" class="browse-btn">Browse Files</button>
+          <input #fileInput type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx,.csv" style="display: none;" />
+          
+        </div>
+        <div class="supported-formats">
+          Supported formats: XLSX, XLS, CSV (Max 5MB)
+        </div>
+      </div>
+      <div class="template-row">
+        <div class="file-selected" *ngIf="isVisible">
+          <div class="file-content">  
+            <span class="check-icon">
+              <img src="assets/check-circle.svg">
+            </span>
+            <span class="file-selected-text">
+              <p>File selected</p>
+              <p>{{filename}}</p>
+            </span>
+            <span class="close-icon" (click)="closeFile()">
+              <img src="assets/Close Button.svg">
+            </span>
+          </div>
+        </div>
+        <div class="download-template" >
+          <div *ngIf="!isVisible">
+            <button class="template-btn" (click)="downloadExcelTemplate()" ><img class="download-img"
+             src="assets/download.svg">Download Template</button>
+            <span class="template-desc">
+              Not sure about the format? <b>Download our template file</b>
+            </span>
+          </div>
+          <div class="candidates-count" *ngIf="isVisible">
+            <span>
+              {{totalrows}} candidates are ready to import 
+            </span>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="next-btn-row">
+        <button class="next-btn" (click)="importCandidates()">Import Candidates</button>
+      </div>
+    </div>
+  
+    <!-- Success Modal -->
+    <div class="modal-backdrop" *ngIf="successImportDialog">
+      <div class="import-modal">
+        <div class="success-icon">
+          <img class="material-icons" src="assets/green-tick.png"/>
+        </div>
+        <div class="modal-title">File Imported</div>
+        <div class="modal-desc">
+          {{totalRecords}} candidates have been successfully imported into your candidate list
+        </div>
+        <div class="import-summary">
+          <div class="summary-item">
+            <div class="summary-label">Total</div>
+            <div class="summary-value">{{totalRecords}}</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Imported</div>
+            <div class="summary-value">{{insertedRecords}}</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Duplicates</div>
+            <div class="summary-value">{{duplicatesFound}}</div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="close-btn" (click)="closeDialog()">Close</button>
+          <button class="view-btn" (click)="viewAllCandidates()">View all candidates</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

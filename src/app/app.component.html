@@ -1,0 +1,31 @@
+<!-- <div class="cr-dashboard-wrapper">
+    <app-sidenavbar></app-sidenavbar>
+    <app-cr-dashboard></app-cr-dashboard>
+</div> -->
+
+
+<!-- <div class="app-container">
+    <app-sidenavbar *ngIf="isLoggedIn"></app-sidenavbar>
+    <main class="main-content">
+        <app-topheader-bar *ngIf="isLoggedIn"></app-topheader-bar> -->
+        <!-- <app-cr-dashboard></app-cr-dashboard> -->
+        <!-- <app-cr-allcandidates></app-cr-allcandidates> -->
+        <!-- <app-cr-add-candidate></app-cr-add-candidate> -->
+         <!-- <app-cr-import-candidates></app-cr-import-candidates> -->
+          <!-- <app-candidate-repo></app-candidate-repo> -->
+           <!-- <app-loader></app-loader>
+           <router-outlet></router-outlet>
+    </main>
+  </div> -->
+
+
+
+  <div class="app-container">
+  <app-sidenavbar *ngIf="isLoggedIn$ | async"></app-sidenavbar>
+  <main class="main-content">
+    <app-topheader-bar *ngIf="isLoggedIn$ | async"></app-topheader-bar>
+    <app-loader></app-loader>
+    <app-toaster></app-toaster>
+    <router-outlet></router-outlet>
+  </main>
+</div>

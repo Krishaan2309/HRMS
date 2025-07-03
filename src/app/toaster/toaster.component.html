@@ -1,0 +1,24 @@
+<div class="toast-wrapper">
+    <div
+      class="toast"
+      *ngFor="let toast of toasts"
+      [ngClass]="toast.type">
+      
+      <div class="toast-icon">
+        <img [src]="getIcon(toast.type)" alt="toast icon" />
+      </div>
+  
+      <div class="toast-inside">
+        <div class="toast-header">
+          {{ toast.title || toast.type | titlecase }}
+        </div>
+        <div class="toast-body">
+          {{ toast.message }}
+        </div>
+      </div>
+  
+      <!-- 🔥 Progress Line -->
+      <div class="disappearing-line"></div>
+    </div>
+  </div>
+  

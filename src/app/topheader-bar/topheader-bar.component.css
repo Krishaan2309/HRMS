@@ -1,0 +1,29 @@
+:host {
+    display: block;
+    width: 100%;
+    padding-left: 15.625rem;
+    box-sizing: border-box;
+    transition: padding-left 0.3s ease;
+}
+.topheader{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid var(--Gray-200, #E4E7EC);;
+}
+
+.header-text span{
+    color: var(--Gray-500, #667085);
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+.header-img img{
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+}

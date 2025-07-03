@@ -1,0 +1,376 @@
+::ng-deep .p-datatable .p-datatable-header{
+  /* background: #f8f9fa;
+  color: #343a40;
+  font-weight: 600; */
+  background: white;
+  border: none;
+}
+
+::ng-deep .styled-table .p-datatable-thead > tr > th {
+  border-bottom: 1px solid var(--Gray-200, #E4E7EC);
+  background: var(--Gray-50, #F9FAFB);
+  color: #475467;
+  font-weight: 600;
+  font-family: Inter;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  width: auto;
+}
+
+.filters{
+  display: flex;
+  align-items: center;
+  min-width: 13vw;  
+
+}
+
+::ng-deep .styled-table .p-datatable-thead > tr > th:last-of-type {
+  position: sticky !important;
+  right: 0;
+  z-index: 105 !important;
+  min-width: auto;
+  text-align: center;
+}
+
+::ng-deep .styled-table .p-datatable-thead > table{
+  border: 1px solid black;
+}
+
+::ng-deep .styled-table .p-datatable-scrollable-thead > tr {
+  z-index: 101;
+  min-width: 15rem;
+  font-size: 14px;
+}
+
+::ng-deep .styled-table .p-datatable-tbody > tr > td {
+  padding: 0.70rem;
+  font-style: normal;
+  font-weight: 400;
+  vertical-align: middle;
+  font-size: 0.80rem;  
+  width: auto;
+}
+
+::ng-deep .p-datatable-wrapper{
+  border: 1px solid var(--Gray-200, #E4E7EC);
+  border-radius: 0.75rem;
+}
+
+::ng-deep .styled-table .p-datatable-tbody > tr > td:last-of-type {
+  position: sticky !important;
+  right: 0;
+  background: white; /* or match your table header/body bg */
+  text-align: center;
+}
+
+::ng-deep .styled-table {  
+  display: block;
+  /* max-height: 400px;       vertical scroll threshold 
+  overflow: auto;          adds scrollbars only when needed */
+}
+
+/* ::ng-deep .status-pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+} */
+
+
+/* ::ng-deep .pi-ellipsis-v {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+::ng-deep .pi-ellipsis-v:hover {
+  background-color: #e2e8f0;
+} */
+
+::ng-deep .p-menu {
+  z-index: 1050 !important; 
+  position: absolute !important;
+}
+
+
+::ng-deep .p-menu .p-menuitem-link {
+  padding: 0.5rem 1rem;
+}
+
+::ng-deep .p-menu .p-menuitem-text {
+  font-size: 0.9rem;
+}
+
+
+::ng-deep .p-overlaypanel {
+  z-index: 1000 !important;
+  /* padding: 0.5rem; */
+  width: auto;
+}
+
+::ng-deep .p-overlaypanel .p-button {
+  width: auto;
+  display: flex;
+  color: var(--Gray-700, #344054);
+  font-size: 0.7rem;
+  padding: 0.5rem;
+
+}
+
+::ng-deep .p-datatable tbody tr td.row-touched:first-child {
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: #007bff;   /*Blue */
+}
+
+::ng-deep .p-datatable tbody tr td.row-untouched:first-child {
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: #D92D20; /* Red */
+}
+
+::ng-deep .p-d-flex{
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+
+/* Compact table layout */
+.compact-table .p-datatable {
+  font-size: 0.70rem;
+}
+
+.compact-table .p-datatable th,
+.compact-table .p-datatable td {
+  padding: 0.2rem 0.4rem;
+}
+
+/* Row border indication */
+.row-touched {
+  border-left: 4px solid #4caf50; /* Green */
+}
+
+.row-untouched {
+  border-left: 4px solid #D92D20; /* Red */
+}
+
+.dot-icon{
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .status-text {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    gap: 0.4rem; /* spacing between dot and text */
+    border-radius: 1rem;
+    background: var(--Gray-100, #F2F4F7);
+  }
+
+  .bg-green {
+    background: #12B76A;
+  }
+  
+  .bg-red {
+    background: #F04438;
+  }
+  
+  .bg-orange {
+    background: #F04438;
+  }
+  
+
+.text-green {
+  border-radius: 1rem;
+  background: var(--Success-50, #ECFDF3);
+  color:#027A48;
+  padding: 0.3rem;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.text-red{
+  border-radius: 1rem;
+  background: var(--Error-50, #FEF3F2);
+  color: #B42318;
+  padding: 0.3rem;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.text-orange{
+  border-radius: 1rem;
+  background: var(--Warning-50, #FFFAEB);
+  color: #B54708;
+  padding: 0.3rem;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.td-touched {
+  border-left: 4px solid #039855;
+  padding-left: 8px;
+}
+
+.td-untouched {
+  border-left: 4px solid #D92D20;
+  padding-left: 8px;
+}
+
+  .filter-options {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  
+
+
+  /* .filter-tag {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    margin-right: 10px;
+    border-radius: 20px;
+    background-color: white;
+    color: #2D4059;
+    font-size: 14px;
+    cursor: pointer;
+  } */
+  
+  .status-dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  /* .filter-tag{
+    color: var(--Gray-700, #344054);
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem; 
+  } */
+  
+  .clear-tag,
+  .touch-tag,
+  .untouch-tag {
+    box-sizing: border-box;            /* Prevent size shift when border appears */
+    border: 1px solid transparent;     /* Reserve space for border always */
+    border-radius: 0.5rem;
+    padding: 0.425rem;
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #FFF;
+    cursor: pointer;
+  }
+  
+  /* Specific styles for each */
+  .clear-tag {
+    color: var(--Gray-700, #344054);
+    background: var(--White, #FFF);
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  }
+  
+  .clear-tag:hover,
+  .clear-tag:focus,
+  .clear-tag:active {
+    border-color: var(--Gray-300, #D0D5DD);
+  }
+  
+  
+  .touch-tag {
+    color: var(--Success-600, #039855);
+    background: var(--Success-50, #ECFDF3);
+  }
+  
+  .touch-tag:hover,
+  .touch-tag:focus,
+  .touch-tag.selected {
+    border-color: var(--Success-600, #039855);
+  }
+  
+  
+  .untouch-tag {
+    color: var(--Error-600, #D92D20);
+    background: var(--Error-50, #FEF3F2);
+  }
+  
+  .untouch-tag:hover,
+  .untouch-tag:focus,
+  .untouch-tag.selected {
+    border-color: var(--Error-600, #D92D20);
+  }
+  
+
+  .status-dot.touched {
+    background-color: #039855;
+  }
+  
+  .status-dot.untouched {
+    background-color: #D92D20;
+  }
+  .table-header{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .p-button-rounded{
+    border-radius: 0.5rem;
+    border: 1px solid var(--Gray-300, #D0D5DD);
+    color:#98A2B3;;
+    background: var(--Gray-100, #F2F4F7);
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+  }
+
+  ::ng-deep .p-column-filter-menu-button {
+    font-size: 0.5rem;       /* Reduce icon size */
+    width: 1rem;            /* Reduce width */
+    height: 1rem;           /* Reduce height */
+    padding: 0.25rem;          /* Tighten spacing */
+    border-radius: 0.25rem;         /* Optional: make it less bulky */
+  }
+  .truncate-text {
+  max-width: 200px;        /* adjust width as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Hide sort icons */
+.p-sortable-column .p-sortable-column-icon {
+  display: none !important;
+}
+
+
+
+/* Ensure header content and filters stay aligned in a single row */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  gap: 0.5rem;
+}
+
+.rowHeading {
+  cursor: pointer;
+  white-space: nowrap;
+}

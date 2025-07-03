@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h2>
+  {{
+    activeTab === 'all' ? 'All Candidates' :
+    activeTab === 'manually-added' ? 'Manually Added Candidates' :
+    activeTab === 'imported' ? 'Imported Candidates' :
+    activeTab === 'from-consultancy' ? 'Consultancy Candidates' :
+    ''
+  }}
+</h2>
+
+
+</div>
+
+<div class="all-candidates-container">
+    <!-- <header class="candidates-header">
+      <div class="breadcrumb">
+        Candidate Repository > All Candidates
+      </div>
+    </header> -->
+  
+    <div class="candidates-content">
+  
+      <div class="candidates-tabs">
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'all'"
+          (click)="setActiveTab('all')">
+          All Candidates
+        </button>
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'manually-added'"
+          (click)="setActiveTab('manually-added')">
+          Manually Added
+        </button>
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'imported'"
+          (click)="setActiveTab('imported')">
+          Imported Candidates
+        </button>
+        <button 
+          class="tab-item" 
+          [class.active]="activeTab === 'from-consultancy'"
+          (click)="setActiveTab('from-consultancy')"
+          [disabled]="true">
+          From Consultancy
+        </button>
+      </div>
+    <app-candidate-table 
+    [activeTab]="activeTab"
+    ></app-candidate-table>
+    </div>
+  </div>
